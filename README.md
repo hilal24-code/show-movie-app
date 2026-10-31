@@ -2,6 +2,10 @@
 
 Aplikasi web untuk menjelajahi film, dibuat dengan **Angular**, **TypeScript**, dan **Tailwind CSS**. Data film diambil dari API [The Movie Database (TMDB)](https://www.themoviedb.org).
 
+##
+
+[Live Web nya](https://show-movie-app-cyan.vercel.app/)
+
 ## ✨ Fitur
 
 - **Daftar film** dalam tampilan grid kartu poster
