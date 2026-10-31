@@ -1,0 +1,47 @@
+<main class="px-6 py-10">
+  <h1 class="mx-auto mb-8 max-w-6xl text-3xl font-bold text-light">Film Favorit</h1>
+
+  @if (fav.favorites().length === 0) {
+    <div class="mx-auto max-w-6xl text-center text-light/70">
+      <p>Belum ada film favorit.</p>
+      <a routerLink="/" class="mt-4 inline-block text-primary hover:underline">
+        Cari film untuk ditambahkan
+      </a>
+    </div>
+  } @else {
+    <div class="mx-auto grid max-w-6xl grid-cols-2 gap-6 md:grid-cols-4">
+      @for (movie of fav.favorites(); track movie.id) {
+        <div class="relative overflow-hidden rounded-xl bg-deep shadow-lg transition hover:scale-105">
+          <a [routerLink]="['/movie', movie.id]" class="block">
+            @if (movie.poster_path) {
+              <img [src]="imageUrl + movie.poster_path" [alt]="movie.title" class="w-full" />
+            } @else {
+              <div class="flex aspect-[2/3] items-center justify-center bg-dark text-light">
+                No Poster
+              </div>
+            }
+
+            <div class="p-3">
+              <h3 class="truncate font-semibold text-light">{{ movie.title }}</h3>
+              <div class="mt-2 flex items-center justify-between text-sm">
+                <span class="text-light/70">{{ movie.release_date?.slice(0, 4) }}</span>
+                <span class="rounded bg-primary px-2 py-0.5 font-semibold text-white">
+                  ⭐ {{ movie.vote_average.toFixed(1) }}
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <button
+            type="button"
+            (click)="fav.toggle(movie)"
+            aria-label="Hapus dari favorit"
+            class="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-dark/70 text-lg backdrop-blur transition hover:bg-dark"
+          >
+            ❤️
+          </button>
+        </div>
+      }
+    </div>
+  }
+</main>

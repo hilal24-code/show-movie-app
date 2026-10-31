@@ -1,0 +1,24 @@
+<header class="sticky top-0 z-50 border-b border-deep bg-dark/90 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a routerLink="/" class="text-xl font-bold text-light transition hover:text-primary">
+      🎬 Show Movie App
+    </a>
+
+    <div class="flex items-center gap-6">
+      <a routerLink="/" class="text-sm font-semibold text-light/80 transition hover:text-primary">
+        Beranda
+      </a>
+      <a
+        routerLink="/favorites"
+        class="text-sm font-semibold text-light/80 transition hover:text-primary"
+      >
+        ❤️ Favorit
+        @if (fav.count() > 0) {
+          <span class="ml-1 rounded-full bg-primary px-2 py-0.5 text-xs text-white">
+            {{ fav.count() }}
+          </span>
+        }
+      </a>
+    </div>
+  </nav>
+</header>

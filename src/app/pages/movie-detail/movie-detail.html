@@ -1,0 +1,118 @@
+<main class="min-h-screen bg-dark px-6 py-10">
+  <div class="mx-auto max-w-4xl">
+    <button (click)="goBack()" class="mb-6 inline-block text-light hover:underline">
+      ← Kembali
+    </button>
+
+    @if (movie(); as m) {
+      <div class="flex flex-col gap-8 md:flex-row">
+        @if (m.poster_path) {
+          <img
+            [src]="imageUrl + m.poster_path"
+            [alt]="m.title"
+            class="w-full rounded-xl shadow-lg md:w-72"
+          />
+        } @else {
+          <div class="flex aspect-[2/3] w-full items-center justify-center rounded-xl bg-deep text-light md:w-72">
+            No Poster
+          </div>
+        }
+
+        <div class="flex-1">
+          <h1 class="text-4xl font-bold text-light">{{ m.title }}</h1>
+
+          @if (m.tagline) {
+            <p class="mt-1 italic text-light/70">{{ m.tagline }}</p>
+          }
+
+          <div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-light">
+            <span class="rounded bg-primary px-2 py-1 font-semibold text-white">
+              ⭐ {{ m.vote_average.toFixed(1) }}
+            </span>
+            <span>{{ m.release_date }}</span>
+            @if (m.runtime) {
+              <span>• {{ m.runtime }} menit</span>
+            }
+          </div>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            @for (g of m.genres; track g.id) {
+              <span class="rounded-full border border-primary px-3 py-1 text-sm text-light">
+                {{ g.name }}
+              </span>
+            }
+          </div>
+
+          <button
+            type="button"
+            (click)="fav.toggle(m)"
+            class="mt-6 rounded-lg border border-primary px-4 py-2 font-semibold text-light transition hover:bg-primary hover:text-white"
+          >
+            {{ fav.isFavorite(m.id) ? '❤️ Hapus dari Favorit' : '🤍 Tambah ke Favorit' }}
+          </button>
+          <h2 class="mt-6 text-xl font-semibold text-light">Sinopsis</h2>
+          <p class="mt-2 leading-relaxed text-light/90">{{ m.overview }}</p>
+        </div>
+      </div>
+
+      @if (trailerUrl(); as url) {
+        <section class="mt-12">
+          <h2 class="mb-4 text-2xl font-semibold text-light">Trailer</h2>
+          <iframe
+            [src]="url"
+            title="Trailer {{ m.title }}"
+            class="aspect-video w-full rounded-xl shadow-lg"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </section>
+      }
+
+      @if (cast().length > 0) {
+        <section class="mt-12">
+          <h2 class="mb-4 text-2xl font-semibold text-light">Pemeran</h2>
+          <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+            @for (person of cast(); track person.id) {
+              <div class="overflow-hidden rounded-xl bg-deep shadow-lg">
+                @if (person.profile_path) {
+                  <img
+                    [src]="imageUrl + person.profile_path"
+                    [alt]="person.name"
+                    class="aspect-[2/3] w-full object-cover"
+                  />
+                } @else {
+                  <div class="flex aspect-[2/3] items-center justify-center bg-dark text-3xl text-light/50">
+                    👤
+                  </div>
+                }
+                <div class="p-2">
+                  <p class="truncate text-sm font-semibold text-light">{{ person.name }}</p>
+                  <p class="truncate text-xs text-light/70">{{ person.character }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+    } @else if (error(); as err) {
+      <app-error-message [message]="err" (retry)="loadMovie()" />
+    } @else {
+      <div class="flex animate-pulse flex-col gap-8 md:flex-row">
+        <div class="aspect-[2/3] w-full rounded-xl bg-deep md:w-72"></div>
+        <div class="flex-1 space-y-4">
+          <div class="h-10 w-2/3 rounded bg-deep"></div>
+          <div class="h-4 w-1/3 rounded bg-deep"></div>
+          <div class="flex gap-2">
+            <div class="h-7 w-20 rounded-full bg-deep"></div>
+            <div class="h-7 w-20 rounded-full bg-deep"></div>
+            <div class="h-7 w-20 rounded-full bg-deep"></div>
+          </div>
+          <div class="h-6 w-28 rounded bg-deep"></div>
+          <div class="h-4 w-full rounded bg-deep"></div>
+          <div class="h-4 w-full rounded bg-deep"></div>
+          <div class="h-4 w-4/5 rounded bg-deep"></div>
+        </div>
+      </div>
+    }
+  </div>
+</main>
